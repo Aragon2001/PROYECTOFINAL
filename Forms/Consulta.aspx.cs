@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.UI;
 
 namespace PROYECTOFINAL.Forms
 {
@@ -9,27 +10,23 @@ namespace PROYECTOFINAL.Forms
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Al cargar por primera vez, mostrar todos los datos
             if (!IsPostBack)
             {
                 CargarDatos("");
             }
         }
 
-        // Evento al presionar el botón de filtro
         protected void btnFiltrar_Click(object sender, EventArgs e)
         {
             string estado = ddlEstado.SelectedValue;
             CargarDatos(estado);
         }
 
-        // Método que consulta incidentes según el estado
         private void CargarDatos(string estado)
         {
             string cadena = ConfigurationManager.ConnectionStrings["ConexionServicios"].ConnectionString;
-            string query = "SELECT id, descripcion, usuario, correo, telefono, fecha, status FROM incidentes";
+            string query = "SELECT id AS ID, descripcion AS Descripción, usuario AS Usuario, correo AS Correo, telefono AS Teléfono, fecha AS Fecha, status AS Estado FROM incidentes";
 
-            // Si se filtró por estado, añadir condición
             if (!string.IsNullOrEmpty(estado))
             {
                 query += " WHERE status = @estado";
@@ -49,7 +46,25 @@ namespace PROYECTOFINAL.Forms
 
                 gvIncidentes.DataSource = dt;
                 gvIncidentes.DataBind();
+
+                if (dt.Rows.Count == 0)
+                {
+                    MostrarAlerta("Sin resultados", "No se encontraron incidentes con ese estado.", "info");
+                }
             }
+        }
+
+        private void MostrarAlerta(string titulo, string mensaje, string icono)
+        {
+            string script = $@"
+                Swal.fire({{
+                    title: '{titulo}',
+                    text: '{mensaje}',
+                    icon: '{icono}',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }});";
+            ScriptManager.RegisterStartupScript(this, GetType(), "Alerta", script, true);
         }
     }
 }

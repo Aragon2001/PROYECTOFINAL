@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.UI;
 
 namespace PROYECTOFINAL.Forms
 {
@@ -30,6 +31,22 @@ namespace PROYECTOFINAL.Forms
                 gvTipos.DataBind();
             }
         }
+        private void MostrarAlerta(string titulo, string mensaje, string icono)
+        {
+            string script = $@"
+        Swal.fire({{
+            title: '{titulo}',
+            text: '{mensaje}',
+            icon: '{icono}',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'OK',
+            customClass: {{
+                popup: 'animated fadeInDown faster'
+            }}
+        }});";
+            ScriptManager.RegisterStartupScript(this, GetType(), "Alerta", script, true);
+        }
+
 
         // Insertar un nuevo tipo en la base de datos
         protected void btnInsertar_Click(object sender, EventArgs e)
@@ -49,6 +66,7 @@ namespace PROYECTOFINAL.Forms
 
             CargarTipos();
             LimpiarFormulario();
+            MostrarAlerta("Éxito", "Tipo insertado correctamente.", "success");
         }
 
         // Modificar el tipo seleccionado
@@ -71,6 +89,7 @@ namespace PROYECTOFINAL.Forms
 
             CargarTipos();
             LimpiarFormulario();
+            MostrarAlerta("Modificado", "Tipo modificado correctamente.", "success");
         }
 
         // Eliminar el tipo seleccionado
@@ -91,6 +110,7 @@ namespace PROYECTOFINAL.Forms
 
             CargarTipos();
             LimpiarFormulario();
+            MostrarAlerta("Eliminado", "Tipo eliminado correctamente.", "success");
         }
 
         // Llenar el campo de texto al seleccionar una fila

@@ -1,108 +1,75 @@
 ﻿<%@ Page Title="Departamentos" Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="Departamentos.aspx.cs" Inherits="PROYECTOFINAL.Forms.Departamentos" %>
 
 <asp:Content ID="headContent" ContentPlaceHolderID="head" runat="server">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Contenedor principal del formulario con estilos de presentación */
         .form-container {
-            max-width: 600px;
-            margin: 40px auto;
-            background-color: white;
-            color: black;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
-        /* Título centrado */
         .form-container h2 {
             text-align: center;
-            margin-bottom: 25px;
-        }
-
-        /* Agrupación de campos con separación */
-        .form-group {
-            margin-bottom: 15px;
+            font-weight: bold;
+            margin-bottom: 30px;
         }
 
         .form-group label {
-            font-weight: bold;
-            display: block;
+            font-weight: 600;
         }
 
-        /* Estilo de entrada de texto */
-        .form-group input[type=text] {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+        .form-control {
+            border-radius: 10px;
         }
 
-        /* Botones agrupados horizontalmente */
-        .form-group .buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        /* Estilo general de los botones */
-        .form-group input[type=submit],
-        .form-group input[type=button] {
-            background-color: #004080;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .form-group input[type=submit]:hover,
-        .form-group input[type=button]:hover {
-            background-color: #0055aa;
-        }
-
-        /* Estilo para mensajes de validación */
         .validation-error {
             color: red;
-            font-size: 0.9em;
+            font-size: 0.9rem;
         }
 
-        /* Oculta el menú lateral cuando esta vista está activa */
-        nav {
-            display: none;
+        .btn-group-custom .btn {
+            min-width: 120px;
+            margin: 5px;
+            font-weight: bold;
+            border-radius: 30px;
         }
     </style>
 </asp:Content>
 
 <asp:Content ID="mainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="form-container">
-        <!-- Título del catálogo -->
-        <h2>Catálogo de Departamentos</h2>
+        <h2><i class="bi bi-building me-2 text-primary"></i>Gestión de Departamentos</h2>
 
-        <!-- Campo para nombre de departamento con validación -->
-        <div class="form-group">
+        <div class="form-group mb-4">
             <label for="txtNombre">Nombre del Departamento</label>
-            <asp:TextBox ID="txtNombre" runat="server" />
-            <asp:RequiredFieldValidator ID="rfvNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="Campo requerido" CssClass="validation-error" Display="Dynamic" />
+            <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" />
+            <asp:RequiredFieldValidator ID="rfvNombre" runat="server" ControlToValidate="txtNombre"
+                ErrorMessage="* Campo obligatorio" CssClass="validation-error" Display="Dynamic" />
         </div>
 
-        <!-- Botones de acción CRUD -->
-        <div class="form-group buttons">
-            <asp:Button ID="btnInsertar" runat="server" Text="Insertar" OnClick="btnInsertar_Click" />
-            <asp:Button ID="btnModificar" runat="server" Text="Modificar" OnClick="btnModificar_Click" />
-            <asp:Button ID="btnEliminar" runat="server" Text="Eliminar" OnClick="btnEliminar_Click" />
-            <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" OnClick="btnLimpiar_Click" />
+        <div class="text-center btn-group-custom">
+            <asp:Button ID="btnInsertar" runat="server" Text=" Insertar" CssClass="btn btn-success" OnClick="btnInsertar_Click" />
+            <asp:Button ID="btnModificar" runat="server" Text=" Modificar" CssClass="btn btn-warning text-white" OnClick="btnModificar_Click" />
+            <asp:Button ID="btnEliminar" runat="server" Text=" Eliminar" CssClass="btn btn-danger" OnClick="btnEliminar_Click" />
+            <asp:Button ID="btnLimpiar" runat="server" Text=" Limpiar" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" />
         </div>
 
-        <!-- Tabla con los datos de los departamentos -->
-        <asp:GridView ID="gvDepartamentos" runat="server" AutoGenerateColumns="False" OnSelectedIndexChanged="gvDepartamentos_SelectedIndexChanged">
-            <Columns>
-                <!-- Columna ID (solo lectura) -->
-                <asp:BoundField DataField="id" HeaderText="ID" ReadOnly="True" />
-                <!-- Columna nombre editable -->
-                <asp:BoundField DataField="nombre" HeaderText="Nombre" />
-                <!-- Botón de selección por fila -->
-                <asp:CommandField ShowSelectButton="True" />
-            </Columns>
-        </asp:GridView>
+        <hr class="my-4" />
+
+        <div class="table-responsive">
+            <asp:GridView ID="gvDepartamentos" runat="server" CssClass="table table-bordered table-hover table-striped"
+                AutoGenerateColumns="False" GridLines="None" OnSelectedIndexChanged="gvDepartamentos_SelectedIndexChanged">
+                <Columns>
+                    <asp:BoundField DataField="id" HeaderText="ID" ReadOnly="true" />
+                    <asp:BoundField DataField="nombre" HeaderText="Nombre del Departamento" />
+                    <asp:CommandField ShowSelectButton="True" SelectText="<i class='bi bi-pencil-square'></i> Seleccionar" />
+                </Columns>
+            </asp:GridView>
+        </div>
     </div>
 </asp:Content>

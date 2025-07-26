@@ -49,13 +49,14 @@
       <h3 class="text-center text-primary mb-3"><i class="bi bi-person-circle"></i> El Zapatero</h3>
       <p class="text-center mb-4 text-muted">Accede a tu cuenta para continuar</p>
 
-      <div class="mb-3">
-        <label for="txtUsuario" class="form-label">Usuario</label>
-        <asp:TextBox ID="txtUsuario" runat="server" CssClass="form-control" placeholder="Nombre de usuario" />
-        <asp:RequiredFieldValidator ID="rfvUsuario" runat="server"
-          ControlToValidate="txtUsuario" CssClass="text-danger"
-          ErrorMessage="Ingrese su usuario" Display="Dynamic" />
-      </div>
+  <div class="mb-3">
+  <label for="txtCedula" class="form-label">Cédula</label>
+  <asp:TextBox ID="txtCedula" runat="server" CssClass="form-control" placeholder="Ingrese su cédula" />
+  <asp:RequiredFieldValidator ID="rfvCedula" runat="server"
+    ControlToValidate="txtCedula" CssClass="text-danger"
+    ErrorMessage="Ingrese su cédula" Display="Dynamic" />
+</div>
+
 
       <div class="mb-3">
         <label for="txtClave" class="form-label">Contraseña</label>

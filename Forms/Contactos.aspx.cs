@@ -14,12 +14,18 @@ namespace PROYECTOFINAL.Forms
             if (!IsPostBack)
             {
                 txtFecha.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                txtUsuario.Text = Session["usuario"] != null ? Session["usuario"].ToString() : "Anonimo";
+                txtUsuario.Text = Session["usuario"] != null ? Session["usuario"].ToString() : "Anónimo";
             }
         }
 
         protected void btnEnviar_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid)
+            {
+                MostrarAlerta("Error", "Por favor complete correctamente el formulario.", "error");
+                return;
+            }
+
             string mensaje = txtMensaje.Text.Trim();
             string fecha = txtFecha.Text;
             string email = txtEmail.Text.Trim();
@@ -44,16 +50,31 @@ namespace PROYECTOFINAL.Forms
                 {
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    Response.Write("<script>alert('Mensaje enviado correctamente');</script>");
+
                     txtMensaje.Text = "";
                     txtEmail.Text = "";
                     txtTelefono.Text = "";
+
+                    MostrarAlerta("Enviado", "Tu mensaje fue enviado correctamente.", "success");
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("<script>alert('Error al guardar: " + ex.Message + "');</script>");
+                    MostrarAlerta("Error", "Hubo un problema al guardar el mensaje: " + ex.Message, "error");
                 }
             }
+        }
+
+        private void MostrarAlerta(string titulo, string mensaje, string icono)
+        {
+            string script = $@"
+                Swal.fire({{
+                    title: '{titulo}',
+                    text: '{mensaje}',
+                    icon: '{icono}',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }});";
+            ScriptManager.RegisterStartupScript(this, GetType(), "Alerta", script, true);
         }
     }
 }

@@ -1,116 +1,147 @@
-﻿<%@ Page Title="Solucion" Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="Solucion.aspx.cs" Inherits="PROYECTOFINAL.Forms.Solucion" %>
+﻿<%@ Page Title="Solución de Incidente" Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="Solucion.aspx.cs" Inherits="PROYECTOFINAL.Forms.Solucion" %>
 
 <asp:Content ID="headContent" ContentPlaceHolderID="head" runat="server">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Estilos generales del formulario */
         .form-container {
-            max-width: 700px;
+            max-width: 1100px;
             margin: 40px auto;
-            background-color: white;
-            color: black;
+            background: #fff;
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
+
         .form-container h2 {
             text-align: center;
+            font-weight: bold;
             margin-bottom: 25px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
+
         .form-group label {
-            font-weight: bold;
-            display: block;
+            font-weight: 600;
         }
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
+
+        .form-control {
+            border-radius: 10px;
         }
-        .form-group input[type=submit] {
-            background-color: #004080;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .form-group input[type=submit]:hover {
-            background-color: #0055aa;
-        }
+
         .validation-error {
             color: red;
-            font-size: 0.9em;
+            font-size: 0.9rem;
         }
-        /* Ocultar menú lateral */
-        nav {
-            display: none;
+
+        .btn-group-custom .btn {
+            min-width: 140px;
+            margin: 5px;
+            border-radius: 30px;
+        }
+
+        .table thead {
+            background-color: #004080;
+            color: white;
         }
     </style>
 </asp:Content>
 
-<asp:Content ID="mainContent" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+<asp:Content ID="contentMain" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="form-container">
-        <h2>Cierre de Incidente</h2>
+        <h2><i class="bi bi-tools me-2"></i>Gestión de Soluciones Técnicas</h2>
 
-        <!-- Selección de incidente pendiente -->
-        <div class="form-group">
-            <label for="ddlIncidente">Incidente</label>
-            <asp:DropDownList ID="ddlIncidente" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlIncidente_SelectedIndexChanged"></asp:DropDownList>
+        <!-- Formulario de solución -->
+        <div class="row g-3">
+            <div class="col-md-12">
+                <label for="ddlIncidente">Seleccione Incidente</label>
+                <asp:DropDownList ID="ddlIncidente" runat="server" CssClass="form-control" AutoPostBack="true" OnSelectedIndexChanged="ddlIncidente_SelectedIndexChanged" />
+            </div>
+
+            <!-- DATOS DEL INCIDENTE EN SOLO LECTURA -->
+            <div class="col-md-12 mt-3">
+                <h5 class="text-secondary"><i class="bi bi-info-circle-fill"></i> Detalles del Incidente</h5>
+            </div>
+
+            <div class="col-md-4">
+                <label>Usuario</label>
+                <asp:TextBox ID="txtDetalleUsuario" runat="server" CssClass="form-control" ReadOnly="true" />
+            </div>
+            <div class="col-md-4">
+                <label>Correo</label>
+                <asp:TextBox ID="txtDetalleCorreo" runat="server" CssClass="form-control" ReadOnly="true" />
+            </div>
+            <div class="col-md-4">
+                <label>Teléfono</label>
+                <asp:TextBox ID="txtDetalleTelefono" runat="server" CssClass="form-control" ReadOnly="true" />
+            </div>
+
+            <!-- CAMPOS PARA ACTUALIZAR -->
+            <div class="col-md-6 mt-4">
+                <label for="txtCausa">Causa</label>
+                <asp:TextBox ID="txtCausa" runat="server" CssClass="form-control" />
+                <asp:RequiredFieldValidator ID="rfvCausa" runat="server" ControlToValidate="txtCausa" ErrorMessage="* Campo requerido" CssClass="validation-error" Display="Dynamic" />
+            </div>
+
+            <div class="col-md-6 mt-4">
+                <label for="txtSolucion">Solución</label>
+                <asp:TextBox ID="txtSolucion" runat="server" CssClass="form-control" />
+                <asp:RequiredFieldValidator ID="rfvSolucion" runat="server" ControlToValidate="txtSolucion" ErrorMessage="* Campo requerido" CssClass="validation-error" Display="Dynamic" />
+            </div>
+
+            <div class="col-md-4">
+                <label for="txtFechaS">Fecha de Solución</label>
+                <asp:TextBox ID="txtFechaS" runat="server" CssClass="form-control" TextMode="Date" />
+                <asp:RequiredFieldValidator ID="rfvFechaS" runat="server" ControlToValidate="txtFechaS" ErrorMessage="* Requerido" CssClass="validation-error" Display="Dynamic" />
+            </div>
+
+            <div class="col-md-4">
+                <label for="txtHoras">Horas de trabajo</label>
+                <asp:TextBox ID="txtHoras" runat="server" CssClass="form-control" />
+                <asp:RequiredFieldValidator ID="rfvHoras" runat="server" ControlToValidate="txtHoras" ErrorMessage="* Requerido" CssClass="validation-error" Display="Dynamic" />
+            </div>
+
+            <div class="col-md-4">
+                <label for="txtRepuesto">Costo Repuestos ₡</label>
+                <asp:TextBox ID="txtRepuesto" runat="server" CssClass="form-control" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="ddlEstado">Estado</label>
+                <asp:DropDownList ID="ddlEstado" runat="server" CssClass="form-control">
+                    <asp:ListItem Text="-- Seleccione --" Value="" />
+                    <asp:ListItem Text="En Proceso" Value="En Proceso" />
+                    <asp:ListItem Text="Cerrado" Value="Cerrado" />
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator ID="rfvEstado" runat="server" ControlToValidate="ddlEstado" InitialValue="" ErrorMessage="* Requerido" CssClass="validation-error" Display="Dynamic" />
+            </div>
         </div>
 
-        <!-- Campo para la causa del incidente -->
-        <div class="form-group">
-            <label for="txtCausa">Causa</label>
-            <asp:TextBox ID="txtCausa" runat="server" TextMode="MultiLine" Rows="2" />
-            <asp:RequiredFieldValidator ID="rfvCausa" runat="server" ControlToValidate="txtCausa" ErrorMessage="Campo requerido" CssClass="validation-error" Display="Dynamic" />
+        <!-- BOTONES -->
+        <div class="text-center mt-4 btn-group-custom">
+            <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-success" OnClick="btnActualizar_Click" />
+            <asp:Button ID="btnLimpiar" runat="server" Text="Limpiar" CssClass="btn btn-secondary" OnClick="btnLimpiar_Click" />
         </div>
 
-        <!-- Campo para seleccionar la fecha en que se resolvió -->
-        <div class="form-group">
-            <label for="txtFechaS">Fecha Solución</label>
-            <asp:TextBox ID="txtFechaS" runat="server" TextMode="Date" />
-            <asp:RequiredFieldValidator ID="rfvFechaS" runat="server" ControlToValidate="txtFechaS" ErrorMessage="Campo requerido" CssClass="validation-error" Display="Dynamic" />
-        </div>
+        <hr class="my-5" />
 
-        <!-- Descripción de la solución aplicada -->
-        <div class="form-group">
-            <label for="txtSolucion">Solución</label>
-            <asp:TextBox ID="txtSolucion" runat="server" TextMode="MultiLine" Rows="2" />
-            <asp:RequiredFieldValidator ID="rfvSolucion" runat="server" ControlToValidate="txtSolucion" ErrorMessage="Campo requerido" CssClass="validation-error" Display="Dynamic" />
-        </div>
-
-        <!-- Cantidad de horas invertidas en la solución -->
-        <div class="form-group">
-            <label for="txtHoras">Horas</label>
-            <asp:TextBox ID="txtHoras" runat="server" />
-            <asp:RequiredFieldValidator ID="rfvHoras" runat="server" ControlToValidate="txtHoras" ErrorMessage="Campo requerido" CssClass="validation-error" Display="Dynamic" />
-        </div>
-
-        <!-- Costo del repuesto si aplica -->
-        <div class="form-group">
-            <label for="txtRepuesto">Costo Repuesto</label>
-            <asp:TextBox ID="txtRepuesto" runat="server" />
-        </div>
-
-        <!-- Estado final del incidente -->
-        <div class="form-group">
-            <label for="ddlEstado">Estado</label>
-            <asp:DropDownList ID="ddlEstado" runat="server">
-                <asp:ListItem Text="-- Seleccione --" Value="" />
+        <!-- TABLA DE SOLUCIONES -->
+        <h4 class="text-primary mb-3">Historial de Soluciones</h4>
+        <div class="mb-3">
+            <label for="ddlFiltroEstado">Filtrar por Estado</label>
+            <asp:DropDownList ID="ddlFiltroEstado" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlFiltroEstado_SelectedIndexChanged" CssClass="form-control w-50">
+                <asp:ListItem Text="Todos" Value="" />
+                <asp:ListItem Text="En Proceso" Value="En Proceso" />
                 <asp:ListItem Text="Cerrado" Value="Cerrado" />
-                <asp:ListItem Text="En proceso" Value="En proceso" />
-                <asp:ListItem Text="Espera de repuesto" Value="Espera de repuesto" />
-                <asp:ListItem Text="Espera de usuario" Value="Espera de usuario" />
             </asp:DropDownList>
-            <asp:RequiredFieldValidator ID="rfvEstado" runat="server" ControlToValidate="ddlEstado" InitialValue="" ErrorMessage="Seleccione estado" CssClass="validation-error" Display="Dynamic" />
         </div>
 
-        <!-- Botón para actualizar la información del incidente -->
-        <div class="form-group">
-            <asp:Button ID="btnActualizar" runat="server" Text="Actualizar Incidente" OnClick="btnActualizar_Click" />
+        <div class="table-responsive">
+            <asp:GridView ID="gvSoluciones" runat="server" CssClass="table table-bordered table-hover table-striped"
+                AutoGenerateColumns="True" GridLines="None" />
+        </div>
+
+        <div class="mt-3 text-end">
+            <strong>Total General: </strong>
+            <asp:Literal ID="litTotalGeneral" runat="server" />
         </div>
     </div>
 </asp:Content>

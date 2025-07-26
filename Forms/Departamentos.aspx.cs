@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Web.UI;
 
 namespace PROYECTOFINAL.Forms
 {
@@ -11,11 +12,10 @@ namespace PROYECTOFINAL.Forms
         {
             if (!IsPostBack)
             {
-                CargarGrid(); // Cargar todos los departamentos al cargar la página
+                CargarGrid();
             }
         }
 
-        // Cargar departamentos en el GridView
         private void CargarGrid()
         {
             string cadena = ConfigurationManager.ConnectionStrings["ConexionServicios"].ConnectionString;
@@ -30,10 +30,14 @@ namespace PROYECTOFINAL.Forms
             }
         }
 
-        // Insertar un nuevo departamento
         protected void btnInsertar_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid) return;
+            if (!Page.IsValid)
+            {
+                MostrarAlerta("Error", "Debe completar el nombre del departamento.", "error");
+                return;
+            }
+
             string nombre = txtNombre.Text.Trim();
             string cadena = ConfigurationManager.ConnectionStrings["ConexionServicios"].ConnectionString;
 
@@ -48,12 +52,17 @@ namespace PROYECTOFINAL.Forms
 
             CargarGrid();
             LimpiarFormulario();
+            MostrarAlerta("Insertado", "Departamento agregado correctamente.", "success");
         }
 
-        // Modificar departamento seleccionado
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            if (gvDepartamentos.SelectedIndex < 0) return;
+            if (gvDepartamentos.SelectedIndex < 0)
+            {
+                MostrarAlerta("Error", "Seleccione un departamento para modificar.", "warning");
+                return;
+            }
+
             string nombre = txtNombre.Text.Trim();
             string id = gvDepartamentos.SelectedRow.Cells[0].Text;
             string cadena = ConfigurationManager.ConnectionStrings["ConexionServicios"].ConnectionString;
@@ -70,12 +79,17 @@ namespace PROYECTOFINAL.Forms
 
             CargarGrid();
             LimpiarFormulario();
+            MostrarAlerta("Modificado", "Departamento actualizado correctamente.", "success");
         }
 
-        // Eliminar departamento seleccionado
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (gvDepartamentos.SelectedIndex < 0) return;
+            if (gvDepartamentos.SelectedIndex < 0)
+            {
+                MostrarAlerta("Error", "Seleccione un departamento para eliminar.", "warning");
+                return;
+            }
+
             string id = gvDepartamentos.SelectedRow.Cells[0].Text;
             string cadena = ConfigurationManager.ConnectionStrings["ConexionServicios"].ConnectionString;
 
@@ -90,15 +104,14 @@ namespace PROYECTOFINAL.Forms
 
             CargarGrid();
             LimpiarFormulario();
+            MostrarAlerta("Eliminado", "Departamento eliminado correctamente.", "success");
         }
 
-        // Seleccionar fila del GridView
         protected void gvDepartamentos_SelectedIndexChanged(object sender, EventArgs e)
         {
             txtNombre.Text = gvDepartamentos.SelectedRow.Cells[1].Text;
         }
 
-        // Limpiar campos
         protected void btnLimpiar_Click(object sender, EventArgs e)
         {
             LimpiarFormulario();
@@ -108,6 +121,19 @@ namespace PROYECTOFINAL.Forms
         {
             txtNombre.Text = "";
             gvDepartamentos.SelectedIndex = -1;
+        }
+
+        private void MostrarAlerta(string titulo, string mensaje, string icono)
+        {
+            string script = $@"
+                Swal.fire({{
+                    title: '{titulo}',
+                    text: '{mensaje}',
+                    icon: '{icono}',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }});";
+            ScriptManager.RegisterStartupScript(this, GetType(), "Alerta", script, true);
         }
     }
 }

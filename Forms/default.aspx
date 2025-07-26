@@ -80,11 +80,16 @@
                 <p><strong>Versión:</strong> 1.0</p>
                 <p><strong>Empresa:</strong> El Zapatero</p>
                 <p><strong>Desarrolladores:</strong> Jostin Aragón Barboza</p>
+<div class="video-box">
+    <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/c9k6sm-5-X8?autoplay=1&mute=1&loop=1&playlist=c9k6sm-5-X8&controls=1"
+        title="YouTube video player" frameborder="0"
+        allow="autoplay; encrypted-media"
+        allowfullscreen="false"
+        referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+</div>
 
-             <div class="video-box">
-     <!-- Inserta aquí tu video de YouTube -->
-     <iframe width="560" src="https://www.youtube.com/embed/c9k6sm-5-X8?si=DEH0td6-dhGtuFg2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
- </div>
                 <asp:Button ID="btnEntrar" runat="server" CssClass="btn" Text="Entrar al sistema" OnClick="btnEntrar_Click" />
             </div>
 

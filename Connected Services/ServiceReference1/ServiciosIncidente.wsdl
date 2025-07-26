@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:tns="http://elzapatero.uaca/ws" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" targetNamespace="http://elzapatero.uaca/ws" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://elzapatero.uaca/ws">
+      <s:element name="met_ManoObra">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="horas" type="s:int" />
+            <s:element minOccurs="1" maxOccurs="1" name="salario" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="met_ManoObraResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="met_ManoObraResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="met_CostoTotal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="manoObra" type="s:decimal" />
+            <s:element minOccurs="1" maxOccurs="1" name="repuesto" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="met_CostoTotalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="met_CostoTotalResult" type="s:decimal" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="met_ManoObraSoapIn">
+    <wsdl:part name="parameters" element="tns:met_ManoObra" />
+  </wsdl:message>
+  <wsdl:message name="met_ManoObraSoapOut">
+    <wsdl:part name="parameters" element="tns:met_ManoObraResponse" />
+  </wsdl:message>
+  <wsdl:message name="met_CostoTotalSoapIn">
+    <wsdl:part name="parameters" element="tns:met_CostoTotal" />
+  </wsdl:message>
+  <wsdl:message name="met_CostoTotalSoapOut">
+    <wsdl:part name="parameters" element="tns:met_CostoTotalResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ServiciosIncidenteSoap">
+    <wsdl:operation name="met_ManoObra">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Calcula el valor de la mano de obra (horas * salario por hora)</wsdl:documentation>
+      <wsdl:input message="tns:met_ManoObraSoapIn" />
+      <wsdl:output message="tns:met_ManoObraSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="met_CostoTotal">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Calcula el costo total (mano de obra + repuesto)</wsdl:documentation>
+      <wsdl:input message="tns:met_CostoTotalSoapIn" />
+      <wsdl:output message="tns:met_CostoTotalSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiciosIncidenteSoap" type="tns:ServiciosIncidenteSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="met_ManoObra">
+      <soap:operation soapAction="http://elzapatero.uaca/ws/met_ManoObra" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="met_CostoTotal">
+      <soap:operation soapAction="http://elzapatero.uaca/ws/met_CostoTotal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiciosIncidenteSoap12" type="tns:ServiciosIncidenteSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="met_ManoObra">
+      <soap12:operation soapAction="http://elzapatero.uaca/ws/met_ManoObra" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="met_CostoTotal">
+      <soap12:operation soapAction="http://elzapatero.uaca/ws/met_CostoTotal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiciosIncidente">
+    <wsdl:port name="ServiciosIncidenteSoap" binding="tns:ServiciosIncidenteSoap">
+      <soap:address location="https://localhost:44397/ServiciosIncidente.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiciosIncidenteSoap12" binding="tns:ServiciosIncidenteSoap12">
+      <soap12:address location="https://localhost:44397/ServiciosIncidente.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace PROYECTOFINAL.Forms
 {
@@ -15,7 +16,6 @@ namespace PROYECTOFINAL.Forms
                 txtTelefono.Text = "";
                 txtDescripcion.Text = "";
 
-                // cargar combos
                 CargarTipos();
                 CargarDepartamentos();
             }
@@ -55,12 +55,18 @@ namespace PROYECTOFINAL.Forms
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid)
+            {
+                MostrarAlerta("Error", "Por favor complete correctamente el formulario.", "error");
+                return;
+            }
+
             string correo = txtCorreo.Text.Trim();
             string telefono = txtTelefono.Text.Trim();
             string descripcion = txtDescripcion.Text.Trim();
             int tipo = int.Parse(ddlTipo.SelectedValue);
             int departamento = int.Parse(ddlDepartamento.SelectedValue);
-            string usuario = Session["usuario"] != null ? Session["usuario"].ToString() : "Anonimo";
+            string usuario = Session["usuario"] != null ? Session["usuario"].ToString() : "Anónimo";
             string fecha = DateTime.Now.ToString("yyyy-MM-dd");
 
             string cadena = ConfigurationManager.ConnectionStrings["ConexionServicios"].ConnectionString;
@@ -82,16 +88,38 @@ namespace PROYECTOFINAL.Forms
                 {
                     conn.Open();
                     cmd.ExecuteNonQuery();
-                    Response.Write("<script>alert('Incidente registrado correctamente');</script>");
+
                     txtCorreo.Text = "";
                     txtTelefono.Text = "";
                     txtDescripcion.Text = "";
+                    ddlTipo.SelectedIndex = 0;
+                    ddlDepartamento.SelectedIndex = 0;
+
+                    MostrarAlerta("Éxito", "Incidente registrado correctamente.", "success");
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("<script>alert('Error al registrar: " + ex.Message + "');</script>");
+                    MostrarAlerta("Error", "Ocurrió un error al registrar: " + ex.Message, "error");
                 }
             }
+        }
+
+        protected void cvDescripcion_ServerValidate(object source, ServerValidateEventArgs args)
+        {
+            args.IsValid = args.Value.Trim().Length >= 10;
+        }
+
+        private void MostrarAlerta(string titulo, string mensaje, string icono)
+        {
+            string script = $@"
+                Swal.fire({{
+                    title: '{titulo}',
+                    text: '{mensaje}',
+                    icon: '{icono}',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                }});";
+            ScriptManager.RegisterStartupScript(this, GetType(), "Alerta", script, true);
         }
     }
 }

@@ -12,7 +12,7 @@ public partial class Login
     /// <summary>
     /// Control txtUsuario.
     /// </summary>
-    protected global::System.Web.UI.WebControls.TextBox txtUsuario;
+    protected global::System.Web.UI.WebControls.TextBox txtCedula;
 
     /// <summary>
     /// Control rfvUsuario.

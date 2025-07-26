@@ -10,7 +10,7 @@ namespace PROYECTOFINAL.Forms
             // Redirige a Login si no hay sesión activa
             if (Session["usuario"] == null)
             {
-                Response.Redirect("~/Login.aspx");
+                Response.Redirect("~/Forms/Login.aspx");
             }
         }
     }
