@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Consulta Incidentes" Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="ConsultaIncidentes.aspx.cs" Inherits="PROYECTOFINAL.Forms.ConsultaIncidentes" %>
+﻿<%@ Page Title="Consulta Incidentes" Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="Consulta.aspx.cs" Inherits="PROYECTOFINAL.Forms.ConsultaIncidentes" %>
 
 <asp:Content ID="headContent" ContentPlaceHolderID="head" runat="server">
     <style>

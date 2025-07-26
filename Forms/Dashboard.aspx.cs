@@ -9,7 +9,7 @@ namespace PROYECTOFINAL.Forms
             // Validar sesión
             if (Session["usuario"] == null || Session["nivel"] == null)
             {
-                Response.Redirect("~/Login.aspx");
+                Response.Redirect("~/Forms/Login.aspx");
                 return;
             }
 
@@ -37,7 +37,7 @@ namespace PROYECTOFINAL.Forms
 
                 default:
                     // Nivel inválido
-                    Response.Redirect("~/Login.aspx");
+                    Response.Redirect("~/Forms/Login.aspx");
                     break;
             }
 
