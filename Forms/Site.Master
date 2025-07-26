@@ -101,12 +101,12 @@
                 <a href="Contactos.aspx"><i class="fa-solid fa-envelope"></i> Contactos</a>
                 <a href="Incidentes.aspx"><i class="fa-solid fa-triangle-exclamation"></i> Incidentes</a>
                 <a href="Solucion.aspx"><i class="fa-solid fa-toolbox"></i> Soluciones</a>
-                <a href="Catalogos/Departamentos.aspx"><i class="fa-solid fa-building"></i> Departamentos</a>
-                <a href="Catalogos/Tipos.aspx"><i class="fa-solid fa-tags"></i> Tipos</a>
-                <a href="Catalogos/Usuarios.aspx"><i class="fa-solid fa-users"></i> Usuarios</a>
-                <a href="Consultas/Incidentes.aspx"><i class="fa-solid fa-magnifying-glass"></i> Consulta Incidentes</a>
-                <a href="Consultas/Cerrados.aspx"><i class="fa-solid fa-folder-closed"></i> Incidentes Cerrados</a>
-                <a href="Consultas/Contactos.aspx"><i class="fa-solid fa-comment-dots"></i> Mensajes</a>
+                <a href="Departamentos.aspx"><i class="fa-solid fa-building"></i> Departamentos</a>
+                <a href="Tipos.aspx"><i class="fa-solid fa-tags"></i> Tipos</a>
+                <a href="Usuarios.aspx"><i class="fa-solid fa-users"></i> Usuarios</a>
+                <a href="Incidentes.aspx"><i class="fa-solid fa-magnifying-glass"></i> Consulta Incidentes</a>
+                <a href="Cerrados.aspx"><i class="fa-solid fa-folder-closed"></i> Incidentes Cerrados</a>
+                <a href="Contactos.aspx"><i class="fa-solid fa-comment-dots"></i> Mensajes</a>
                 <a href="Login.aspx"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</a>
             </nav>
 

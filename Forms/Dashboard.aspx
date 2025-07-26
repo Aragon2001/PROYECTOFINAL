@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="~/Forms/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="PROYECTOFINAL.Forms.Dashboard" %>
+﻿<%@ Page Title="Dashboard" Language="C#" MasterPageFile="Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="PROYECTOFINAL.Forms.Dashboard" %>
 
 <asp:Content ID="headContent" ContentPlaceHolderID="head" runat="server">
     <style>
