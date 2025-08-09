@@ -8,7 +8,8 @@ namespace PROYECTOFINAL.Forms
         {
             if (Session["cedula"] == null || Session["nivel"] == null)
             {
-                Response.Redirect("~/Login.aspx");
+                // Redirige correctamente al formulario de inicio de sesión cuando no hay sesión activa
+                Response.Redirect("~/Forms/Login.aspx");
                 return;
             }
 
@@ -33,7 +34,8 @@ namespace PROYECTOFINAL.Forms
                     break;
 
                 default:
-                    Response.Redirect("~/Login.aspx");
+                    // Si el rol no es reconocido, regresar a la página de login
+                    Response.Redirect("~/Forms/Login.aspx");
                     return;
             }
 
